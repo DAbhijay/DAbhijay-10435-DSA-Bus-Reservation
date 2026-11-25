@@ -1,0 +1,46 @@
+# Bus Reservation System (PS 19)
+
+Console bus reservation application in Java.
+
+## Problem
+Search buses by destination, book and cancel tickets, and sort buses by fare. If a bus is full, the passenger joins that bus's waiting queue and gets the seat automatically when a ticket is cancelled.
+
+## Concepts used
+| Concept | Where |
+|---|---|
+| ArrayList | `buses` (all buses), `Bus.booked` (tickets) |
+| Queue | `Bus.waiting` (`LinkedList` as FIFO queue, one per bus) |
+| Searching | `findBus()` and `searchByDestination()` (linear search) |
+| Sorting | `sortByFare()` (bubble sort on a copy of the list) |
+| Methods | one method per feature |
+| File handling | `loadData()` at start, `saveData()` on exit |
+
+## Run
+```
+javac Main.java
+java Main
+```
+Keep `buses.txt` in the same folder.
+
+## Menu
+1. View buses  2. Search by destination  3. Book ticket  4. Cancel ticket  5. Sort by fare  6. Exit (saves)
+
+## Data file (`buses.txt`)
+```
+B101,Raipur-Bhopal,700,2
+B102,Raipur-Nagpur,450,2
+```
+On exit the program saves the full state back to the same file: booked tickets, waiting queues and the next ticket number (`#next=`). To reset to the original data, restore the two lines above.
+
+## Test cases (run on fresh data, one session)
+| # | Input | Output |
+|---|---|---|
+| 1 | Option 3, B101, Riya | Ticket booked. TKT101 \| Riya \| B101 Raipur-Bhopal, Seats left: 1 |
+| 2 | Option 3, B101, Aman | Ticket booked. TKT102 \| Aman \| B101 Raipur-Bhopal, Seats left: 0 |
+| 3 | Option 3, B999 | Bus B999 not found. |
+| 4a | Option 3, B101, Dev | Bus full. Dev added to waiting queue. |
+| 4b | Option 4, TKT101 | Ticket TKT101 cancelled. Seat given to Dev: TKT103 |
+| 4c | Option 5 | B102 \| 450, B101 \| 700 |
+
+## Validation handled
+Unknown bus ID, unknown ticket ID, empty passenger name, invalid menu option, missing data file.
